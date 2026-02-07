@@ -53,6 +53,7 @@
   var noteContent = noteOverlay ? noteOverlay.querySelector('.note-content') : null;
   if (noteBtn && noteOverlay) {
     function openNote() {
+      noteOverlay.style.display = '';
       noteOverlay.classList.remove('hidden');
       noteOverlay.setAttribute('aria-hidden', 'false');
       noteOverlay.classList.remove('ferman-open');
@@ -65,6 +66,7 @@
     function closeNote() {
       noteOverlay.classList.remove('ferman-open');
       noteOverlay.classList.add('hidden');
+      noteOverlay.style.display = 'none';
       noteOverlay.setAttribute('aria-hidden', 'true');
     }
     noteBtn.addEventListener('click', function (e) {

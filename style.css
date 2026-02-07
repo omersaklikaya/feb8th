@@ -1141,24 +1141,28 @@ body {
 }
 
 /* ===== NOT butonu ve overlay (pixel çerçeve + ferman) ===== */
-.note-btn {
+.message-section button.note-btn,
+button.note-btn {
   display: inline-block;
   margin: 0 auto;
   padding: 0.5rem 1.2rem;
   font-family: 'Press Start 2P', monospace;
   font-size: 0.75rem;
-  background: #6b4c9a;
-  color: #fff;
-  border: 3px solid #4a3560;
+  background: #6b4c9a !important;
+  color: #fff !important;
+  border: 3px solid #4a3560 !important;
   border-radius: 4px;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
   position: relative;
   z-index: 1;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-.note-btn:hover {
-  background: #8b6cba;
+.message-section button.note-btn:hover,
+button.note-btn:hover {
+  background: #8b6cba !important;
   transform: scale(1.05);
 }
 
@@ -1175,7 +1179,7 @@ body {
 }
 
 .note-overlay.hidden {
-  display: none;
+  display: none !important;
   pointer-events: none;
 }
 
