@@ -27,20 +27,12 @@
   var messageBtn = document.getElementById('messageBtn');
   var messageOverlay = document.getElementById('messageOverlay');
   var messageBook = document.getElementById('messageBook');
-  var messageBookFlip = document.getElementById('messageBookFlip');
-  if (messageBtn && messageOverlay && messageBook && messageBookFlip) {
+  if (messageBtn && messageOverlay && messageBook) {
     function openMessage() {
       messageOverlay.classList.remove('hidden');
       messageOverlay.setAttribute('aria-hidden', 'false');
-      messageBookFlip.classList.remove('open');
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          messageBookFlip.classList.add('open');
-        });
-      });
     }
     function closeMessage() {
-      messageBookFlip.classList.remove('open');
       messageOverlay.classList.add('hidden');
       messageOverlay.setAttribute('aria-hidden', 'true');
     }

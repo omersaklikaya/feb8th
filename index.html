@@ -12,6 +12,11 @@
 </head>
 
 <body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0" aria-hidden="true">
+    <filter id="bookSharpen">
+      <feConvolveMatrix in="SourceGraphic" order="3 3" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"/>
+    </filter>
+  </svg>
   <div id="celebration" class="celebration" aria-live="polite" aria-hidden="true">
     <div class="celebration-backdrop"></div>
     <div class="celebration-photo" id="celebrationPhoto"></div>
@@ -624,7 +629,7 @@
               <div class="thing-shutter" tabindex="0" role="button" aria-label="2. öğeyi aç"><span
                   class="thing-rank">2</span><span class="thing-hint thing-hint-arrow" aria-hidden="true"></span></div>
               <div class="thing-content thing-content-with-img">
-                <p>dijon hardal</p><img src="images/hardal.png" alt="dijon hardal" class="thing-img thing-img-sm">
+                <p>belgraddaki pizza</p><img src="images/pizza.png" alt="belgraddaki pizza" class="thing-img">
               </div>
             </li>
             <li class="thing-slot">
@@ -645,10 +650,10 @@
               <div class="thing-shutter" tabindex="0" role="button" aria-label="5. öğeyi aç"><span
                   class="thing-rank">5</span><span class="thing-hint thing-hint-arrow" aria-hidden="true"></span></div>
               <div class="thing-content thing-content-with-img">
-                <p>belgraddaki pizza</p><img src="images/pizza.png" alt="belgraddaki pizza" class="thing-img">
+                <p>atinadaki gyros</p><img src="images/gyros.png" alt="atinadaki gyros" class="thing-img">
               </div>
             </li>
-          </ul>
+            </ul>
         </div>
       </div>
     </section>
@@ -660,21 +665,7 @@
 
     <div class="message-overlay hidden" id="messageOverlay" aria-hidden="true">
       <div class="message-book" id="messageBook" role="dialog" aria-label="Mesaj">
-        <div class="message-book-flip" id="messageBookFlip">
-          <div class="message-book-cover" aria-hidden="true">
-            <span class="message-book-cover-title">1 yıl</span>
-          </div>
-          <div class="message-book-page">
-            <div class="message-book-page-inner">
-              <div class="message-content">
-                <p>Buraya ona yazdığın mesajı ekle. Bu sayfada <code>.message-content</code> içindeki paragrafları
-                  düzenle.</p>
-                <p>İkinci paragraf, üçüncü paragraf… İstediğin kadar ekleyebilirsin.</p>
-                <p>Seni çok seviyorum. &lt;3</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <img src="images/open-book.png" alt="" class="message-book-img">
       </div>
     </div>
   </main>

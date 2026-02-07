@@ -28,16 +28,15 @@ body {
   z-index: 0;
 }
 
-/* Pixel-art kalp (8x8 grid), form bozulmadan bloklu görünüm */
+/* Arka plan kalpleri: verdiğin pixel-art kalp görseli */
 .hero-bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.35;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23ff6b9d' d='M2,1H5L6,2L7,3V4L6,5L5,6L4,7H3L2,6L1,5L0,4V3L1,2Z'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  background-image: url("images/heart-bg.png");
   background-size: 48px 48px;
   image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   z-index: 0;
 }
@@ -46,12 +45,11 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23ffb3c6' d='M2,1H5L6,2L7,3V4L6,5L5,6L4,7H3L2,6L1,5L0,4V3L1,2Z'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  background-image: url("images/heart-bg.png");
   background-size: 32px 32px;
   background-position: 16px 16px;
   image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   z-index: 0;
 }
@@ -759,12 +757,12 @@ body {
   color: #ffb3c6;
 }
 
-/* Kepenk açılma yönünde pixel-art sağ ok (net ok formu) */
+/* Retro pixel ok + tıklanabilir buton çerçevesi (tıkla, kaydırma değil) */
 .thing-hint-arrow {
   display: inline-block;
-  width: 20px;
+  width: 26px;
   height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23ffb3c6' d='M2,0L5,0L5,1L7,1L7,3L5,3L5,4L7,4L7,6L5,6L5,7L2,7L2,6L0,6L0,4L2,4L2,3L0,3L0,1L2,1Z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 16'%3E%3Crect x='1' y='1' width='24' height='14' fill='rgba(61,21,48,0.6)' stroke='%23ffb3c6' stroke-width='1.5'/%3E%3Cpath fill='%23ffb3c6' d='M6 6h5v4H6V6zm5-1l6 3-6 3V5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -1106,114 +1104,38 @@ body {
   pointer-events: none;
 }
 
-/* Kitap: önce kapalı görünür, sonra açılır — tam ortada */
+/* Kitap: büyük, sadece görsel, açılma animasyonu */
 .message-book {
-  width: 320px;
-  max-width: 90vw;
-  height: 420px;
   position: relative;
-  transform-style: preserve-3d;
-  animation: bookAppear 0.5s ease-out forwards;
+  width: 860px;
+  max-width: 95vw;
   margin: 0 auto;
-  overflow: visible;
   flex-shrink: 0;
+  transform-origin: center center;
+  animation: bookOpen 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-@keyframes bookAppear {
+.message-book-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: url(#bookSharpen);
+}
+
+/* Kitap açılma: kapalı (sadece cilt) → tam açık */
+@keyframes bookOpen {
   0% {
-    transform: scale(0.6);
-    opacity: 0;
+    transform: scaleX(0.06) scaleY(0.95);
+    opacity: 0.3;
   }
-  100% {
-    transform: scale(1);
+  60% {
+    transform: scaleX(1.02) scaleY(1);
     opacity: 1;
   }
-}
-
-.message-book-flip {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.9s cubic-bezier(0.35, 0.1, 0.25, 1);
-  transform-origin: center center;
-}
-
-.message-book-flip.open {
-  transform: rotateY(-180deg);
-}
-
-/* Kapalı kitap kapağı (önden görünen yüz) */
-.message-book-cover {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border: 4px solid #5c4a32;
-  background: linear-gradient(145deg, #6b5344 0%, #5c4a32 50%, #4a3c28 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    4px 0 0 #3d3225,
-    8px 0 0 #3d3225,
-    0 4px 0 #3d3225,
-    0 8px 0 #3d3225,
-    4px 4px 0 #3d3225,
-    8px 4px 0 #3d3225,
-    inset 0 0 0 2px rgba(255,255,255,0.06);
-}
-
-.message-book-cover-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.65rem;
-  color: #f5ecd0;
-  text-shadow: 2px 2px 0 #3d3225;
-  letter-spacing: 0.1em;
-}
-
-/* Açılan sayfa (arkada görünecek yüz) */
-.message-book-page {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  transform: rotateY(180deg);
-  border: 4px solid #5c4a32;
-  background: #f5ecd0;
-  box-shadow:
-    -4px 0 0 #5c4a32,
-    -8px 0 0 #5c4a32,
-    0 4px 0 #5c4a32,
-    0 8px 0 #5c4a32,
-    inset 0 0 0 3px #8b7355;
-}
-
-.message-book-page-inner {
-  margin: 6px;
-  height: calc(100% - 12px);
-  overflow: auto;
-  border: 2px solid #8b7355;
-  background: #faf4e4;
-  padding: 1rem 1.25rem;
-}
-
-.message-content {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.45rem;
-  line-height: 2.4;
-  color: #3d2c29;
-}
-
-.message-content p {
-  margin: 0 0 0.75rem;
-}
-
-.message-content p:last-child {
-  margin-bottom: 0;
-}
-
-.message-content code {
-  background: rgba(139, 115, 85, 0.25);
-  padding: 0.15em 0.35em;
-  border: 1px solid #8b7355;
-  font-size: 0.9em;
+  100% {
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
+  }
 }
