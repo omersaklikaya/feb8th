@@ -19,7 +19,7 @@ body {
   overflow: hidden;
 }
 
-/* Retro çizgi film / arcade: koyu pembe-mor gradient + kalp deseni */
+/* Hero arka planı: body’deki kalp deseni görünsün, hafif karartma */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -28,14 +28,17 @@ body {
   z-index: 0;
 }
 
-/* Pixel/arcade tarzı kalpler: tekrarlayan SVG pattern */
+/* Pixel-art kalp (8x8 grid), form bozulmadan bloklu görünüm */
 .hero-bg::before {
   content: '';
   position: absolute;
   inset: 0;
   opacity: 0.35;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b9d'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23ff6b9d' d='M2,1H5L6,2L7,3V4L6,5L5,6L4,7H3L2,6L1,5L0,4V3L1,2Z'/%3E%3C/svg%3E");
   background-size: 48px 48px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   z-index: 0;
 }
 
@@ -44,9 +47,12 @@ body {
   position: absolute;
   inset: 0;
   opacity: 0.2;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffb3c6'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23ffb3c6' d='M2,1H5L6,2L7,3V4L6,5L5,6L4,7H3L2,6L1,5L0,4V3L1,2Z'/%3E%3C/svg%3E");
   background-size: 32px 32px;
   background-position: 16px 16px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   z-index: 0;
 }
 
@@ -117,6 +123,8 @@ body {
   width: auto;
   height: auto;
   object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.35));
 }
 .hero-gift-wrap:hover .gift-box-icon {
@@ -439,6 +447,10 @@ body {
   line-height: 1.8;
 }
 
+#photos .section-title {
+  font-size: clamp(0.8rem, 3.5vw, 1.05rem);
+}
+
 .section-hint {
   font-size: 0.5rem;
   color: #888;
@@ -501,6 +513,12 @@ body {
   margin-top: -0.4rem;
 }
 
+/* 46. slot: sonuncu olduğu için 2 sütunda ortada */
+.gallery-diagonal .memory-wrap-center {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
 @media (min-width: 600px) {
   .gallery-diagonal {
     grid-template-columns: 1fr 1fr 1fr;
@@ -523,13 +541,21 @@ body {
   .gallery-diagonal .memory-wrap:nth-child(3n) {
     margin-right: -6rem;
   }
+  /* 46. slot: üçlülerin ortadaki ile AYNI HİZADA */
+  .gallery-diagonal .memory-wrap.memory-wrap-center {
+    grid-column: 2;
+    justify-self: center;
+    margin-top: -0.4rem;
+    margin-left: 3rem !important;
+    margin-right: 3rem !important;
+  }
 }
 
 .memory-wrap:hover {
   transform: scale(1.02);
 }
 
-/* Kapak: BAK BURDA NE VAR – tıklanınca gizlenir */
+/* Kapak: açık kilit ikonu – tıklanınca gizlenir */
 .memory-cover {
   position: absolute;
   inset: 0;
@@ -551,7 +577,18 @@ body {
   box-shadow: inset 0 0 0 2px rgba(255,107,157,0.4);
 }
 
-/* Sıra numarası: her yerde görünsün, sıralama belli olsun */
+.memory-cover-icon {
+  width: 28px;
+  height: 28px;
+  max-width: 22%;
+  max-height: 22%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  flex-shrink: 0;
+}
+
+/* Sıra numarası: köşede */
 .memory-slot-num {
   position: absolute;
   top: 0.35rem;
@@ -629,19 +666,321 @@ body {
   }
 }
 
-/* ===== Stickers ===== */
-.sticker-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  align-items: center;
+/* ===== Sen olduğunu düşündüğüm şeyler ===== */
+.things-you .things-you-main-title {
+  font-size: clamp(0.8rem, 3.5vw, 1.1rem);
 }
 
-.sticker {
-  width: 80px;
-  height: 80px;
+.things-you-content {
+  padding: 1rem 0 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 700px) {
+  .things-you-content {
+    grid-template-columns: 1fr 1fr 1fr;
+    max-width: 1100px;
+    gap: 6.5rem;
+  }
+}
+
+.things-subsection {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.things-subtitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.5rem, 2.2vw, 0.7rem);
+  color: #ff6b9d;
+  margin: 0 0 0.75rem;
+  text-align: left;
+  height: 4em;
+  line-height: 1.6;
+}
+
+.things-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.thing-slot {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #ff6b9d;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
+  background: rgba(255, 107, 157, 0.08);
+  height: 3.5rem;
+}
+
+.thing-slot:last-child {
+  margin-bottom: 0;
+}
+
+/* Kepenk: tıklanınca sağa kayar */
+.thing-shutter {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  background: linear-gradient(90deg, rgba(61, 21, 48, 1) 0%, rgba(26, 10, 18, 1) 100%);
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.6s ease;
+  box-shadow: inset 0 0 0 2px rgba(255, 107, 157, 0.3);
+}
+
+.thing-slot.revealed .thing-shutter {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+.thing-rank {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  color: #ff6b9d;
+  min-width: 1.2em;
+}
+
+.thing-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: #ffb3c6;
+}
+
+/* Kepenk açılma yönünde pixel-art sağ ok (net ok formu) */
+.thing-hint-arrow {
+  display: inline-block;
+  width: 20px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23ffb3c6' d='M2,0L5,0L5,1L7,1L7,3L5,3L5,4L7,4L7,6L5,6L5,7L2,7L2,6L0,6L0,4L2,4L2,3L0,3L0,1L2,1Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  text-indent: -999px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.thing-content {
+  padding: 0 1rem;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.thing-content p {
+  margin: 0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  line-height: 1.8;
+  color: #ffb3c6;
+}
+
+.thing-content-with-img {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.thing-content-with-img p {
+  flex-shrink: 0;
+}
+
+.thing-img {
+  width: 40px;
+  height: 40px;
   object-fit: contain;
+  flex-shrink: 0;
+}
+
+.thing-img-sm {
+  width: 22px;
+  height: 22px;
+}
+
+.thing-img-left {
+  margin-left: -10px;
+}
+
+/* Şarkı satırı: bar %100 aynı boyut, isim sola taşındı (barı küçültmez) */
+.song-row {
+  position: relative;
+  margin-bottom: 0.6rem;
+}
+
+.song-row:last-child {
+  margin-bottom: 0;
+}
+
+.song-name-outside {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  bottom: 0;
+  margin-right: 0.5rem;
+  min-width: 7rem;
+  max-width: 11rem;
+  display: flex;
+  align-items: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #ffb3c6;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.song-row.revealed .song-name-outside {
+  opacity: 1;
+  visibility: visible;
+}
+
+.song-row .thing-slot {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.things-subsection-songs {
+  overflow: visible;
+}
+
+/* Şarkı slotu içeriği: sadece play + soundbar */
+.thing-content-song {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.thing-content-song .song-player-bar {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0 0.25rem 0 0;
+}
+
+/* Pixel arcade play: keskin gölge, blocky ikon */
+.song-play-toggle {
+  width: auto;
+  height: auto;
+  min-width: 1.85rem;
+  min-height: 1.85rem;
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+  color: #ff6b9d;
+  font-size: 0.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: 'Press Start 2P', monospace;
+  transition: color 0.15s ease;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  text-shadow:
+    1px 0 0 #c71585,
+    0 1px 0 #c71585,
+    1px 1px 0 #c71585,
+    2px 2px 0 rgba(0,0,0,0.5);
+}
+
+.song-play-toggle:hover {
+  color: #ffb3c6;
+  text-shadow:
+    1px 0 0 #ff8fab,
+    0 1px 0 #ff8fab,
+    1px 1px 0 #c71585,
+    2px 2px 0 rgba(0,0,0,0.5);
+}
+
+.song-play-toggle .song-play-icon {
+  margin-left: 3px;
+}
+
+.song-play-toggle.playing .song-play-icon {
+  display: none;
+}
+
+.song-play-toggle.playing::after {
+  content: '';
+  width: 0.35rem;
+  height: 0.6rem;
+  border-left: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  border-radius: 0;
+}
+
+.song-waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Pixel bar’lar: keskin köşe, pixel gölge, blocky */
+.song-waveform .sw {
+  flex: 1 1 0;
+  min-width: 4px;
+  max-width: 6px;
+  min-height: 4px;
+  background: #ff6b9d;
+  border-radius: 0;
+  transition: height 0.15s ease;
+  box-shadow:
+    1px 0 0 #c71585,
+    0 1px 0 #c71585,
+    1px 1px 0 rgba(0,0,0,0.35);
+}
+
+.song-audio {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .thing-content p {
+    font-size: 0.5rem;
+  }
+  .thing-img {
+    width: 40px;
+    height: 40px;
+  }
+  .thing-rank {
+    font-size: 0.65rem;
+  }
+  .thing-hint {
+    font-size: 0.45rem;
+  }
 }
 
 /* ===== Counter ===== */
@@ -651,21 +990,36 @@ body {
   border-bottom: 3px solid #ff6b9d;
 }
 
+.counter-block {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 2rem;
+}
+
 .counter-section .section-title {
   color: #fff;
+  margin-bottom: 0.75rem;
+  font-size: clamp(0.85rem, 4.5vw, 1.3rem);
 }
 
-#days {
+#days, #hours, #minutes, #seconds {
   color: #ff6b9d;
   display: inline-block;
-  margin: 0 0.2em;
+  margin: 0 0.15em;
 }
 
-.counter-sub {
-  font-size: 0.5rem;
-  text-align: center;
+.counter-message {
+  font-size: clamp(0.65rem, 3vw, 0.9rem);
+  line-height: 1.9;
   color: #ffb3c6;
-  margin: 0.5rem 0 0;
+  margin: 1rem 0 0;
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .counter-message {
+    font-size: clamp(0.75rem, 3.5vw, 1rem);
+  }
 }
 
 /* ===== YouTube videos ===== */
@@ -700,20 +1054,19 @@ body {
 /* ===== Message section ===== */
 .message-section {
   padding-bottom: 4rem;
+  text-align: center;
 }
 
 .message-btn {
-  display: block;
+  display: inline-block;
   margin: 0 auto 1.5rem;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.6rem;
-  padding: 1rem 1.5rem;
+  padding: 0.4rem;
   background: #ff6b9d;
-  color: #fff;
   border: 3px solid #c71585;
   border-radius: 4px;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
+  text-align: center;
 }
 
 .message-btn:hover {
@@ -725,27 +1078,133 @@ body {
   transform: scale(0.98);
 }
 
-.message-box {
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  background: rgba(255,107,157,0.15);
-  border: 3px solid #ff6b9d;
-  border-radius: 8px;
+.message-btn-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
-.message-box.hidden {
+/* Overlay: ekran ortası, dışına tıklanınca kapanır */
+.message-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(26, 10, 18, 0.85);
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  perspective: 900px;
+  overflow: visible;
+}
+
+.message-overlay.hidden {
   display: none;
+  pointer-events: none;
+}
+
+/* Kitap: önce kapalı görünür, sonra açılır — tam ortada */
+.message-book {
+  width: 320px;
+  max-width: 90vw;
+  height: 420px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: bookAppear 0.5s ease-out forwards;
+  margin: 0 auto;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+@keyframes bookAppear {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.message-book-flip {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.35, 0.1, 0.25, 1);
+  transform-origin: center center;
+}
+
+.message-book-flip.open {
+  transform: rotateY(-180deg);
+}
+
+/* Kapalı kitap kapağı (önden görünen yüz) */
+.message-book-cover {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border: 4px solid #5c4a32;
+  background: linear-gradient(145deg, #6b5344 0%, #5c4a32 50%, #4a3c28 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    4px 0 0 #3d3225,
+    8px 0 0 #3d3225,
+    0 4px 0 #3d3225,
+    0 8px 0 #3d3225,
+    4px 4px 0 #3d3225,
+    8px 4px 0 #3d3225,
+    inset 0 0 0 2px rgba(255,255,255,0.06);
+}
+
+.message-book-cover-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.65rem;
+  color: #f5ecd0;
+  text-shadow: 2px 2px 0 #3d3225;
+  letter-spacing: 0.1em;
+}
+
+/* Açılan sayfa (arkada görünecek yüz) */
+.message-book-page {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  border: 4px solid #5c4a32;
+  background: #f5ecd0;
+  box-shadow:
+    -4px 0 0 #5c4a32,
+    -8px 0 0 #5c4a32,
+    0 4px 0 #5c4a32,
+    0 8px 0 #5c4a32,
+    inset 0 0 0 3px #8b7355;
+}
+
+.message-book-page-inner {
+  margin: 6px;
+  height: calc(100% - 12px);
+  overflow: auto;
+  border: 2px solid #8b7355;
+  background: #faf4e4;
+  padding: 1rem 1.25rem;
 }
 
 .message-content {
-  font-size: 0.5rem;
-  line-height: 2.2;
-  color: #ffe4ec;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  line-height: 2.4;
+  color: #3d2c29;
 }
 
 .message-content p {
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
 }
 
 .message-content p:last-child {
@@ -753,8 +1212,8 @@ body {
 }
 
 .message-content code {
-  background: rgba(0,0,0,0.3);
+  background: rgba(139, 115, 85, 0.25);
   padding: 0.15em 0.35em;
-  border-radius: 2px;
+  border: 1px solid #8b7355;
   font-size: 0.9em;
 }
