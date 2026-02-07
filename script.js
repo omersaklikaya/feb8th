@@ -48,12 +48,13 @@
     });
   }
 
-  var noteBtn = document.getElementById('noteBtn');
-  var noteOverlay = document.getElementById('noteOverlay');
-  var noteContent = noteOverlay ? noteOverlay.querySelector('.note-content') : null;
-  if (noteBtn && noteOverlay) {
+  function initNoteOverlay() {
+    var noteBtn = document.getElementById('noteBtn');
+    var noteOverlay = document.getElementById('noteOverlay');
+    if (!noteBtn || !noteOverlay) return;
+    var noteContent = noteOverlay.querySelector('.note-content');
     function openNote() {
-      noteOverlay.style.display = '';
+      noteOverlay.style.display = 'flex';
       noteOverlay.classList.remove('hidden');
       noteOverlay.setAttribute('aria-hidden', 'false');
       noteOverlay.classList.remove('ferman-open');
@@ -78,10 +79,13 @@
       if (e.target === noteOverlay) closeNote();
     });
     if (noteContent) {
-      noteContent.addEventListener('click', function (e) {
-        e.stopPropagation();
-      });
+      noteContent.addEventListener('click', function (e) { e.stopPropagation(); });
     }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNoteOverlay);
+  } else {
+    initNoteOverlay();
   }
 
   // Sen olduğunu düşündüğüm şeyler: kepenk tıklanınca sağa kayar
