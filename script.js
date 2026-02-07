@@ -50,8 +50,8 @@
 
   var noteBtn = document.getElementById('noteBtn');
   var noteOverlay = document.getElementById('noteOverlay');
-  var noteContent = document.getElementById('noteContent');
-  if (noteBtn && noteOverlay && noteContent) {
+  var noteContent = noteOverlay ? noteOverlay.querySelector('.note-content') : null;
+  if (noteBtn && noteOverlay) {
     function openNote() {
       noteOverlay.classList.remove('hidden');
       noteOverlay.setAttribute('aria-hidden', 'false');
@@ -68,15 +68,18 @@
       noteOverlay.setAttribute('aria-hidden', 'true');
     }
     noteBtn.addEventListener('click', function (e) {
+      e.preventDefault();
       e.stopPropagation();
       openNote();
     });
     noteOverlay.addEventListener('click', function (e) {
       if (e.target === noteOverlay) closeNote();
     });
-    noteContent.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
+    if (noteContent) {
+      noteContent.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    }
   }
 
   // Sen olduğunu düşündüğüm şeyler: kepenk tıklanınca sağa kayar

@@ -1153,6 +1153,8 @@ body {
   border-radius: 4px;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .note-btn:hover {
