@@ -1,25 +1,68 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beyaz arka plan → Şeffaf PNG</title>
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
-    h1 { font-size: 1.2rem; }
-    input[type="file"] { margin: 1rem 0; }
-    .threshold { margin: 0.5rem 0; }
-    .threshold label { margin-right: 0.5rem; }
-    .threshold input { width: 4rem; }
-    .preview { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
-    .preview img { max-width: 80px; max-height: 80px; object-fit: contain; border: 1px solid #ccc; }
-    .downloads { margin-top: 1rem; }
-    .downloads a { display: block; margin: 0.25rem 0; color: #c71585; }
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      font-size: 1.2rem;
+    }
+
+    input[type="file"] {
+      margin: 1rem 0;
+    }
+
+    .threshold {
+      margin: 0.5rem 0;
+    }
+
+    .threshold label {
+      margin-right: 0.5rem;
+    }
+
+    .threshold input {
+      width: 4rem;
+    }
+
+    .preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .preview img {
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: contain;
+      border: 1px solid #ccc;
+    }
+
+    .downloads {
+      margin-top: 1rem;
+    }
+
+    .downloads a {
+      display: block;
+      margin: 0.25rem 0;
+      color: #c71585;
+    }
   </style>
 </head>
+
 <body>
   <h1>Beyaz arka planı şeffafa çevir</h1>
-  <p>PNG/JPG seç. Beyaz (ve ona yakın) pikseller şeffaf yapılır; sonucu indirip <code>images/hero-decor/</code> içindeki hero-1.png … hero-8.png dosyalarının üzerine kaydedebilirsin.</p>
+  <p>PNG/JPG seç. Beyaz (ve ona yakın) pikseller şeffaf yapılır; sonucu indirip <code>images/hero-decor/</code> içindeki
+    hero-1.png … hero-8.png dosyalarının üzerine kaydedebilirsin.</p>
   <div class="threshold">
     <label for="th">Beyaz eşik (0–255, yüksek = daha çok şeffaf):</label>
     <input type="number" id="th" min="200" max="255" value="248">
@@ -87,4 +130,5 @@
     })();
   </script>
 </body>
+
 </html>
