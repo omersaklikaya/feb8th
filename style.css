@@ -1,0 +1,760 @@
+/* ===== Reset & base ===== */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', monospace;
+  background: #1a0a12;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* ===== Hero: arcade title + retro heart background ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* Retro çizgi film / arcade: koyu pembe-mor gradient + kalp deseni */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, #2d0f1f 0%, #1a0a12 30%, #3d1530 60%, #1a0a12 100%);
+  z-index: 0;
+}
+
+/* Pixel/arcade tarzı kalpler: tekrarlayan SVG pattern */
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b9d'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-size: 48px 48px;
+  z-index: 0;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffb3c6'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-size: 32px 32px;
+  background-position: 16px 16px;
+  z-index: 0;
+}
+
+/* Hero: hediye kutusu sarmalayıcı – konumlar */
+.hero-gift-wrap {
+  position: absolute;
+  z-index: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+}
+.hero-gift-wrap-1 { top: 2%; left: 4%; width: 130px; height: 130px; }
+.hero-gift-wrap-2 { top: 2%; left: 24%; }
+.hero-gift-wrap-3 { top: 2%; right: 24%; left: auto; }
+.hero-gift-wrap-4 { top: 2%; right: 4%; left: auto; }
+.hero-gift-wrap-5 { top: 36%; left: 5%; }
+.hero-gift-wrap-6 { top: 2%; left: 50%; transform: translateX(-50%); }
+.hero-gift-wrap-7 { top: 36%; right: 5%; left: auto; }
+.hero-gift-wrap-8 { bottom: 14%; left: 4%; top: auto; }
+.hero-gift-wrap-9 { bottom: 14%; left: 24%; top: auto; }
+.hero-gift-wrap-10 { bottom: 14%; right: 24%; top: auto; left: auto; }
+.hero-gift-wrap-11 { bottom: 14%; right: 4%; top: auto; left: auto; }
+
+/* Resim: kapalıyken gizli, açılınca görünür */
+.hero-gift-wrap .hero-decor {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.hero-gift-wrap.opened .hero-decor {
+  opacity: 0.92;
+}
+.hero-gift-wrap-1 .hero-decor-1 { max-width: 130px; max-height: 130px; }
+
+/* Hediye kutusu – görsel (beyaz kutu, kırmızı kurdele) */
+.gift-box {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.45s ease 0.5s, transform 0.4s ease;
+}
+/* Açılınca kutu tamamen gizlenir, sadece görsel kalır; tıklanamaz */
+.hero-gift-wrap.opened .gift-box {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.3s ease;
+}
+.hero-gift-wrap.opened {
+  pointer-events: none;
+  cursor: default;
+}
+.gift-box-icon {
+  max-width: 72px;
+  max-height: 72px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.35));
+}
+.hero-gift-wrap:hover .gift-box-icon {
+  transform: scale(1.06);
+  transition: transform 0.2s ease;
+}
+
+.gift-hearts {
+  position: absolute;
+  inset: -10px;
+  pointer-events: none;
+  opacity: 0;
+}
+.hero-gift-wrap.opened .gift-hearts {
+  animation: giftHearts 1.2s ease-out forwards;
+}
+.gift-hearts::before,
+.gift-hearts::after {
+  content: '♥';
+  position: absolute;
+  font-size: 14px;
+  color: #ff8fab;
+  opacity: 0.9;
+  left: 50%;
+  top: 50%;
+  animation: heartFloat 1s ease-out forwards;
+}
+.gift-hearts::before { margin-left: -18px; animation-delay: 0.1s; }
+.gift-hearts::after { margin-left: 6px; animation-delay: 0.2s; color: #ffb3c6; }
+@keyframes heartFloat {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  40% { opacity: 0.95; transform: translate(-50%, -60%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -120%) scale(0.8); }
+}
+@keyframes giftHearts {
+  0% { opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; }
+}
+
+/* Kutu üzerinde yazı göstermiyoruz; metin ekran ortasında */
+.gift-reveal-text {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .hero-gift-wrap { width: 145px; height: 145px; }
+  .hero-gift-wrap-1 { width: 158px; height: 158px; }
+  .hero-gift-wrap-1 .hero-decor-1 { max-width: 158px; max-height: 158px; }
+  .gift-box-icon { max-width: 84px; max-height: 84px; }
+}
+
+/* ===== Tüm sitede kutlama – ekranı kaplayan efekt, ortada yazı ===== */
+.celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.celebration.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Arka plan: ekranın geri kalanı görünmesin */
+.celebration-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(80,20,50,0.92) 0%, rgba(30,5,25,0.97) 100%);
+  backdrop-filter: blur(8px);
+}
+
+/* Açılan fotoğraf: animasyonun parçası olarak ortada büyür */
+.celebration-photo {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.celebration-photo img {
+  max-width: min(55vw, 280px);
+  max-height: min(40vh, 260px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.4));
+  animation: celebrationPhotoIn 1.6s ease-out forwards;
+}
+@keyframes celebrationPhotoIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  18% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  28% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  82% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+.celebration-hearts {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+/* Kalpler sağdan soldan fırlayıp ortaya doğru görkemli patlama */
+.celebration-heart {
+  position: absolute;
+  font-size: 28px;
+  color: #ff8fab;
+  opacity: 0;
+  animation: celebrationHeartBurst 1s ease-out forwards;
+  text-shadow: 0 0 18px rgba(255,107,157,0.9);
+}
+.celebration-heart:nth-child(odd) { color: #ffb3c6; font-size: 24px; }
+.celebration-heart:nth-child(3n) { color: #ff6b9d; font-size: 26px; }
+.celebration-heart.heart-left {
+  left: 0;
+  right: auto;
+  animation-name: celebrationHeartBurstFromLeft;
+}
+.celebration-heart.heart-right {
+  left: auto;
+  right: 0;
+  animation-name: celebrationHeartBurstFromRight;
+}
+@keyframes celebrationHeartBurstFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px) translateY(50vh) scale(0.2) rotate(-15deg);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(5vw) translateY(45vh) scale(1.1) rotate(5deg);
+  }
+  85% {
+    opacity: 0.9;
+    transform: translateX(35vw) translateY(10vh) scale(0.9) rotate(15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(45vw) translateY(-10vh) scale(0.6) rotate(25deg);
+  }
+}
+@keyframes celebrationHeartBurstFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20px) translateY(50vh) scale(0.2) rotate(15deg);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(-5vw) translateY(45vh) scale(1.1) rotate(-5deg);
+  }
+  85% {
+    opacity: 0.9;
+    transform: translateX(-35vw) translateY(10vh) scale(0.9) rotate(-15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-45vw) translateY(-10vh) scale(0.6) rotate(-25deg);
+  }
+}
+@keyframes celebrationHeartBurst {
+  0% {
+    opacity: 0;
+    transform: translateY(50vh) scale(0.25) rotate(0deg);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(42vh) scale(1.05) rotate(8deg);
+  }
+  90% {
+    opacity: 0.85;
+    transform: translateY(-15vh) scale(0.9) rotate(20deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-25vh) scale(0.5) rotate(28deg);
+  }
+}
+
+.celebration-fireworks {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.celebration-firework {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: celebrationBurst 0.9s ease-out forwards;
+}
+.celebration-firework::before,
+.celebration-firework::after {
+  content: '';
+  position: absolute;
+  inset: -28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,220,120,0.95) 0%, rgba(255,100,80,0.6) 25%, transparent 55%);
+  animation: celebrationBurstRing 0.8s ease-out forwards;
+}
+.celebration-firework::after {
+  background: radial-gradient(circle, rgba(255,180,220,0.9) 0%, rgba(255,80,140,0.5) 30%, transparent 60%);
+  animation-delay: 0.04s;
+}
+@keyframes celebrationBurst {
+  0% { opacity: 0; transform: scale(0.15); }
+  30% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+@keyframes celebrationBurstRing {
+  0% { opacity: 0; transform: scale(0.25); }
+  40% { opacity: 0.95; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2.8); }
+}
+
+/* Yazı: fotoğrafın altında, ekran ortasında */
+.celebration-text {
+  position: absolute;
+  top: 72%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.85rem, 5vw, 1.35rem);
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 94vw;
+  padding: 0.6rem 1.2rem;
+  opacity: 0;
+  text-shadow:
+    0 0 24px rgba(255,107,157,0.9),
+    0 0 48px rgba(255,107,157,0.5),
+    0 0 80px rgba(199,21,133,0.3),
+    4px 4px 0 #c71585,
+    2px 2px 0 rgba(0,0,0,0.5);
+  pointer-events: none;
+  z-index: 10;
+  line-height: 1.8;
+}
+.celebration-text:not(:empty) {
+  animation: celebrationTextIn 1.6s ease-out forwards;
+}
+@keyframes celebrationTextIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  22% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+}
+
+.title {
+  position: relative;
+  z-index: 2;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.9rem, 4vw, 1.5rem);
+  text-align: center;
+  color: #fff;
+  text-shadow:
+    0 0 0 3px #ff6b9d,
+    2px 2px 0 #c71585,
+    4px 4px 0 rgba(0,0,0,0.4);
+  max-width: 20ch;
+  line-height: 2.2;
+  margin: 0;
+}
+
+@media (min-width: 600px) {
+  .title { font-size: clamp(1.1rem, 3.5vw, 1.8rem); }
+}
+
+/* ===== Sections ===== */
+.section {
+  padding: 3rem 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.6rem, 2.5vw, 0.75rem);
+  text-align: center;
+  color: #ffb3c6;
+  margin: 0 0 1.5rem;
+  line-height: 1.8;
+}
+
+.section-hint {
+  font-size: 0.5rem;
+  color: #888;
+  text-align: center;
+  margin: 0 0 1.5rem;
+  line-height: 1.8;
+}
+
+.section-hint code {
+  background: rgba(255,255,255,0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 2px;
+}
+
+/* ===== Gallery (photos) – sayfaya yayılmış, düzenli boşluklu hafif dağınık ===== */
+.section.photos {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.gallery-diagonal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 1.75rem;
+  padding: 2rem 1rem 4rem;
+  max-width: 100%;
+  justify-items: center;
+  align-content: start;
+}
+
+.memory-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1;
+  border: 4px solid #ff6b9d;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255,107,157,0.12);
+  margin: 0;
+  transition: transform 0.2s ease;
+}
+
+/* İlk satırdaki yan yana ve altlı üstlü boşluk tüm satırlarda aynı (grid gap) */
+.gallery-diagonal .memory-wrap {
+  margin: 0;
+}
+
+/* 8. foto: aşağı kaydır, kare dolu; iki yüz de görünsün (hizalama ile) */
+.gallery-diagonal .memory-wrap:nth-child(8) {
+  margin-top: 8rem;
+}
+.gallery-diagonal .memory-wrap:nth-child(8) .memory-img {
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+/* 2 sütunda: her satırın ikinci (sağdaki) fotoğrafı hafif yukarı */
+.gallery-diagonal .memory-wrap:nth-child(2n) {
+  margin-top: -0.4rem;
+}
+
+@media (min-width: 600px) {
+  .gallery-diagonal {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.75rem 2rem;
+    padding: 2rem 1.5rem 5rem;
+  }
+  .memory-wrap { max-width: 260px; }
+  /* 3 sütunda: her satırın ortadaki fotoğrafı hafif yukarı (2. sütun) */
+  .gallery-diagonal .memory-wrap:nth-child(2n) { margin-top: 0; }
+  .gallery-diagonal .memory-wrap:nth-child(3n-1) {
+    margin-top: -0.4rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+  /* Sol sütun: iyice sola */
+  .gallery-diagonal .memory-wrap:nth-child(3n+1) {
+    margin-left: -6rem;
+  }
+  /* Sağ sütun: iyice sağa */
+  .gallery-diagonal .memory-wrap:nth-child(3n) {
+    margin-right: -6rem;
+  }
+}
+
+.memory-wrap:hover {
+  transform: scale(1.02);
+}
+
+/* Kapak: BAK BURDA NE VAR – tıklanınca gizlenir */
+.memory-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: #ffb3c6;
+  text-align: center;
+  padding: 1rem;
+  line-height: 1.6;
+  background: linear-gradient(160deg, rgba(61,21,48,0.95) 0%, rgba(26,10,18,0.98) 100%);
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 2;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  box-shadow: inset 0 0 0 2px rgba(255,107,157,0.4);
+}
+
+/* Sıra numarası: her yerde görünsün, sıralama belli olsun */
+.memory-slot-num {
+  position: absolute;
+  top: 0.35rem;
+  left: 0.35rem;
+  font-size: 0.5rem;
+  color: rgba(255,182,193,0.9);
+  line-height: 1;
+}
+
+.memory-wrap.revealed .memory-cover {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.memory-cover:hover {
+  color: #ff6b9d;
+  box-shadow: inset 0 0 0 2px rgba(255,107,157,0.7);
+}
+
+.memory-cover:focus {
+  outline: 2px solid #ff6b9d;
+  outline-offset: 2px;
+}
+
+/* Resim: kapak açılınca görünür */
+.memory-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.memory-wrap.revealed .memory-img {
+  opacity: 1;
+}
+
+/* Açıldığında yazı: daha anlaşılır, okunaklı */
+.photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #fff;
+  text-align: center;
+  padding: 0.55rem 0.5rem;
+  line-height: 1.7;
+  margin: 0;
+  white-space: normal;
+  word-break: break-word;
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 60%, transparent);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6);
+  letter-spacing: 0.02em;
+}
+
+.memory-wrap.revealed .photo-caption {
+  opacity: 1;
+}
+
+@media (min-width: 600px) {
+  .memory-cover { font-size: 0.45rem; }
+  .photo-caption {
+    font-size: 0.5rem;
+    padding: 0.65rem 0.6rem;
+    line-height: 1.75;
+  }
+}
+
+/* ===== Stickers ===== */
+.sticker-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.sticker {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* ===== Counter ===== */
+.counter-section {
+  background: linear-gradient(180deg, rgba(255,107,157,0.12) 0%, transparent 100%);
+  border-top: 3px solid #ff6b9d;
+  border-bottom: 3px solid #ff6b9d;
+}
+
+.counter-section .section-title {
+  color: #fff;
+}
+
+#days {
+  color: #ff6b9d;
+  display: inline-block;
+  margin: 0 0.2em;
+}
+
+.counter-sub {
+  font-size: 0.5rem;
+  text-align: center;
+  color: #ffb3c6;
+  margin: 0.5rem 0 0;
+}
+
+/* ===== YouTube videos ===== */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.video-card {
+  background: rgba(255,255,255,0.06);
+  border: 3px solid #ff6b9d;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.video-label {
+  font-size: 0.5rem;
+  color: #ffb3c6;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.video-card iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: block;
+  border: none;
+}
+
+/* ===== Message section ===== */
+.message-section {
+  padding-bottom: 4rem;
+}
+
+.message-btn {
+  display: block;
+  margin: 0 auto 1.5rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  padding: 1rem 1.5rem;
+  background: #ff6b9d;
+  color: #fff;
+  border: 3px solid #c71585;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.message-btn:hover {
+  background: #ff8fab;
+  transform: scale(1.05);
+}
+
+.message-btn:active {
+  transform: scale(0.98);
+}
+
+.message-box {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: rgba(255,107,157,0.15);
+  border: 3px solid #ff6b9d;
+  border-radius: 8px;
+}
+
+.message-box.hidden {
+  display: none;
+}
+
+.message-content {
+  font-size: 0.5rem;
+  line-height: 2.2;
+  color: #ffe4ec;
+}
+
+.message-content p {
+  margin: 0 0 1rem;
+}
+
+.message-content p:last-child {
+  margin-bottom: 0;
+}
+
+.message-content code {
+  background: rgba(0,0,0,0.3);
+  padding: 0.15em 0.35em;
+  border-radius: 2px;
+  font-size: 0.9em;
+}

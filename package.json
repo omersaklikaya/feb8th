@@ -1,0 +1,23 @@
+{
+  "name": "feb8th",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omersaklikaya/feb8th.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omersaklikaya/feb8th/issues"
+  },
+  "homepage": "https://github.com/omersaklikaya/feb8th#readme",
+  "description": "",
+  "dependencies": {
+    "jimp": "^1.6.0"
+  }
+}
