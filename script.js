@@ -48,6 +48,37 @@
     });
   }
 
+  var noteBtn = document.getElementById('noteBtn');
+  var noteOverlay = document.getElementById('noteOverlay');
+  var noteContent = document.getElementById('noteContent');
+  if (noteBtn && noteOverlay && noteContent) {
+    function openNote() {
+      noteOverlay.classList.remove('hidden');
+      noteOverlay.setAttribute('aria-hidden', 'false');
+      noteOverlay.classList.remove('ferman-open');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          noteOverlay.classList.add('ferman-open');
+        });
+      });
+    }
+    function closeNote() {
+      noteOverlay.classList.remove('ferman-open');
+      noteOverlay.classList.add('hidden');
+      noteOverlay.setAttribute('aria-hidden', 'true');
+    }
+    noteBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      openNote();
+    });
+    noteOverlay.addEventListener('click', function (e) {
+      if (e.target === noteOverlay) closeNote();
+    });
+    noteContent.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
+
   // Sen olduğunu düşündüğüm şeyler: kepenk tıklanınca sağa kayar
   document.querySelectorAll('.thing-shutter').forEach(function (shutter) {
     shutter.addEventListener('click', function () {
@@ -229,11 +260,20 @@
   var celebrationTimeout = null;
 
   function getMessageForOpenCount(count) {
-    if (count >= 1 && count <= 4) return 'BİZZ';
-    if (count >= 5 && count <= 7) return 'BUNLAR DA BİZZ';
-    if (count === 8) return 'BUNLAR ZATEN BİZZ';
-    if (count >= 9) return 'HEPSİ BİZZ';
-    return 'BİZZ';
+    var messages = {
+      1: 'BİZZ',
+      2: 'BİZZ',
+      3: 'BUNLAR DA BİZZ',
+      4: 'BUNLAR ZATEN BİZZ',
+      5: 'YİNE BİZZ',
+      6: 'BİZZZ',
+      7: 'BİZZİKO',
+      8: 'BİZBİZBİZBİZ',
+      9: 'ÇOK BİZZ',
+      10: 'AŞŞIRI BİZZ',
+      11: 'HEPSİ BİZZZZ'
+    };
+    return messages[count] || 'BİZZ';
   }
 
   var celebrationPhoto = document.getElementById('celebrationPhoto');
@@ -244,8 +284,9 @@
     celebrationHearts.innerHTML = '';
     celebrationFireworks.innerHTML = '';
     celebrationText.classList.remove('show');
-    celebrationText.textContent = message || 'BİZZ';
+    celebrationText.textContent = '';
     celebrationText.offsetHeight;
+    celebrationText.textContent = message || 'BİZZ';
     celebrationText.classList.add('show');
     if (celebrationPhoto) {
       celebrationPhoto.innerHTML = '';

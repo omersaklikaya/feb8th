@@ -1,0 +1,222 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Fredoka', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(to right, #FFEA00, #B8E986, #2E7D32);
+  background-attachment: fixed;
+  color: #2c3e50;
+}
+
+.gate {
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.25rem 1.5rem 1.5rem;
+  position: relative;
+}
+
+.gate-title {
+  margin: 0 0 0.1rem;
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  font-weight: 700;
+  color: #1a5276;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.gate-instruction {
+  margin: 0 0 0.2rem;
+  font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+  color: #34495e;
+  text-align: center;
+  max-width: 360px;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.game-board {
+  position: relative;
+  width: 772px;
+  height: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Top: sitenin altından başlar, bardak seçilince o bardağın altına gider */
+.ball-float {
+  position: absolute;
+  left: calc(50% + 8px);
+  bottom: -180px;
+  top: auto;
+  width: 55px;
+  height: 55px;
+  margin-left: -27.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 32%, #ffcc80, #ff9800 45%, #e65100 100%);
+  box-shadow: inset -2px -2px 8px rgba(0,0,0,0.25), 0 3px 10px rgba(0,0,0,0.2);
+  z-index: 5;
+  transition: left 0.5s ease, bottom 0.5s ease, margin-left 0.5s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.ball-float.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Bardak: büyük, ters görsel (ağzı yere bakan) */
+.cup {
+  position: absolute;
+  bottom: 0;
+  width: 220px;
+  height: 275px;
+  cursor: pointer;
+  transition: transform 0.5s ease, filter 0.2s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0;
+  transform: translateX(var(--cup-tx, 0));
+}
+/* Orta bardak tam board ortasında, top 50% ile hizalı */
+.cup[data-index="0"] { left: 14px; }
+.cup[data-index="1"] { left: 276px; }
+.cup[data-index="2"] { left: 538px; }
+
+.cup-img {
+  display: block;
+  width: 220px;
+  height: auto;
+  max-height: 275px;
+  object-fit: contain;
+  object-position: bottom;
+}
+
+.cup:hover .cup-img {
+  filter: brightness(1.08);
+}
+.cup:hover {
+  transform: translateX(var(--cup-tx, 0)) translateY(-6px);
+}
+
+.cup:active {
+  transform: translateX(var(--cup-tx, 0)) translateY(0);
+}
+
+/* Seçilen bardak havaya kalkar → top altına girer → bardak kapanır (hover/active ezmesin) */
+.cup.lifted,
+.cup.lifted:hover,
+.cup.lifted:active {
+  transform: translateX(var(--cup-tx, 0)) translateY(-140px);
+  z-index: 10;
+  transition: transform 0.5s ease;
+}
+
+.cup.shuffling {
+  cursor: default;
+  pointer-events: none;
+  transition: transform 1.1s ease;
+}
+
+/* Top bardağın içinde asla görünmez */
+.ball {
+  position: absolute;
+  bottom: 33px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 32%, #ffcc80, #ff9800 45%, #e65100 100%);
+  box-shadow: inset -2px -2px 8px rgba(0,0,0,0.25), 0 3px 10px rgba(0,0,0,0.2);
+  visibility: hidden !important;
+  z-index: 2;
+}
+
+.cup.reveal .cup-img {
+  filter: brightness(1.1);
+}
+
+.score {
+  margin: 0 0 0.1rem;
+  font-size: clamp(1.05rem, 3vw, 1.2rem);
+  color: #1a5276;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.score + .game-board {
+  margin-top: 0;
+}
+
+.feedback {
+  margin: 0;
+  min-height: 1.5em;
+  font-size: clamp(1rem, 3vw, 1.15rem);
+  color: #27ae60;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.feedback.wrong {
+  color: #c0392b;
+}
+
+.redirect-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #a8d4f0 0%, #f0c8d8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  z-index: 10;
+}
+
+.redirect-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.redirect-text {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: #2c3e50;
+  margin: 0;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.reshuffle-btn {
+  margin-top: 0.75rem;
+  padding: 0.65rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a5276;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #1a5276;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  text-transform: uppercase;
+}
+.reshuffle-btn:hover {
+  background: #1a5276;
+  color: #fff;
+}
+.reshuffle-btn.hidden {
+  display: none;
+}

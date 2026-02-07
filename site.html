@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bardak</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+  <div class="gate">
+    <h1 class="gate-title">Bardak oyunu</h1>
+    <p class="gate-instruction" id="gateInstruction">Topu koyacağın bardağı seç.</p>
+
+    <p class="score" id="score" aria-live="polite">Doğru: 0 / 3</p>
+
+    <div class="game-board" id="gameBoard">
+      <div class="ball-float" id="ballFloat" aria-hidden="true"></div>
+      <div class="cup" id="cup0" data-index="0" role="button" aria-label="Birinci bardak">
+        <img src="images/cup.png" alt="" class="cup-img">
+        <div class="ball" aria-hidden="true"></div>
+      </div>
+      <div class="cup" id="cup1" data-index="1" role="button" aria-label="İkinci bardak">
+        <img src="images/cup.png" alt="" class="cup-img">
+        <div class="ball" aria-hidden="true"></div>
+      </div>
+      <div class="cup" id="cup2" data-index="2" role="button" aria-label="Üçüncü bardak">
+        <img src="images/cup.png" alt="" class="cup-img">
+        <div class="ball" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <p class="feedback" id="feedback" aria-live="polite"></p>
+    <button type="button" class="reshuffle-btn hidden" id="reshuffleBtn">Tekrar karıştır</button>
+
+    <div class="redirect-overlay" id="redirectOverlay" aria-hidden="true">
+      <p class="redirect-text">Siteye yönlendiriliyorsunuz…</p>
+    </div>
+  </div>
+
+  <script src="site.js"></script>
+</body>
+
+</html>
